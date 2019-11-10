@@ -20,6 +20,7 @@ var test = {
 	over: false,
 	start: false,
 	began: false,
+	difficulty: 0, // This is the difficulty loop, as a function
 	buttonDelay: false // Button is done after ding
 }
 
@@ -38,11 +39,16 @@ window.onload = function() {
 setInterval(function() {
 	c.clearRect(0, 0, canvas.width, canvas.height);
 
+	// Ground level of room
 	var ground = canvas.height / 2 + 100; // Ground level
 
-	// Draw gym or whatever
-	c.fillStyle = "brown";
-	c.fillRect(0, ground, canvas.width, canvas.height)
+	// Draw gym floor
+	c.fillStyle = "chocolate";
+	c.fillRect(0, ground, canvas.width, canvas.height);
+	c.fillStyle = "sienna";
+	c.fillRect(0, ground, canvas.width, 25);
+	c.fillStyle = "LightSkyBlue";
+	c.fillRect(0, 0, canvas.width, ground);
 
 	// Draw player
 	c.fillStyle = "red";
@@ -139,7 +145,7 @@ function key(event) {
 			startTest();
 
 			// Progressively gets harder every 5 seconds
-			setInterval(function() {
+			test.difficulty = setInterval(function() {
 				test.time -= .1;
 				play("speedup.mp3");
 			}, 5000);
@@ -160,7 +166,7 @@ function glidePlayer(direction) {
 			// Set frame to standing, with a delay to make it look more natural
 			setTimeout(function() {
 				player.frame = 0;
-			}, 50);
+			}, 100);
 		} else {
 			velocity = velocity * .92;
 
@@ -181,7 +187,7 @@ function glidePlayer(direction) {
 	setTimeout(function() {
 		clearInterval(int);
 		player.frame = 0;
-	}, 500);
+	}, 300);
 }
 
 // Test mechanics
@@ -202,7 +208,8 @@ function startTest() {
 		}
 
 		if (test.over) {
-			clearTimeout(time)
+			clearTimeout(time); // Stop round counter
+			clearTimeout(test.difficulty); // Stop difficulty progressor
 		} else {
 			test.round++
 			play("lap.mp3");
