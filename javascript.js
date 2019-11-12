@@ -121,10 +121,10 @@ function key(event) {
 	if (!move.alreadyPressed && test.began) {
 		move.alreadyPressed = true;
 
-		if (event.key == "d") {
+		if (event.key == "d" || event.keyCode == 39) {
 			glidePlayer("forward");
 			player.direction = "right";
-		} else if (event.key == "a") {
+		} else if (event.key == "a" || event.keyCode == 37) {
 			player.direction = "left";
 			glidePlayer("back");
 		}
