@@ -103,7 +103,26 @@ setInterval(function() {
 		c.fillStyle = "black";
 		c.fillText("You lost!", canvas.width / 2 - 50, canvas.height / 2 - 100);
 		c.font = "20px Arial";
-		c.fillText("You got to round " + test.round + "!", canvas.width / 2 - 80, canvas.height / 2 - 50);
+		var grade = (60 + test.round);
+		c.fillText("You got to round " + test.round + "! (" + grade + "%)", canvas.width / 2 - 100, canvas.height / 2 - 50);
+		c.font = "20px Arial";
+
+		var ending = "";
+		if (grade > 110) {
+			ending = "You are a legend";
+		} else if (grade > 100) {
+			ending = "Not bad";
+		} else if (grade > 90) {
+			ending = "Is that really the best you can do?";
+		} else if (grade > 80) {
+			ending = "Did you even try?";
+		} else if (grade > 70) {
+			ending = "I've seen rocks go faster than that.";
+		} else if (grade > 70) {
+			ending = "You didn't even try. How pathetic.";
+		}
+
+		c.fillText(ending, canvas.width / 2 - 80, canvas.height / 2);
 	}
 
 	// Make black start screen
@@ -143,6 +162,8 @@ function key(event) {
 		// 1 Second before start
 		setTimeout(function() {
 			startTest();
+
+			play("Sunrise_Drive.mp3"); // Background music
 
 			// Progressively gets harder every 5 seconds
 			test.difficulty = setInterval(function() {
@@ -190,12 +211,12 @@ function glidePlayer(direction) {
 	}, 300);
 }
 
-// Test mechanics
+// Test mechanics (called every lap)
 function startTest() {
 	test.start = true; // If button should light up (false again in 100ms)
 	test.began = true; // If the test has begun yet
-	var time = setTimeout(function() {
 
+	var time = setTimeout(function() {
 		var roundEven = test.round % 2 == 0;
 		var right = player.x > canvas.width - 100;
 		var left = player.x < 100;
