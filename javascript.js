@@ -14,7 +14,10 @@ var player = {
 }
 
 var test = {
-	time: 4, // In seconds
+	// Calculate time from screen width so
+	// it is the same for big and small windows
+	time: Math.floor(window.innerWidth / 300),
+
 	round: 0,
 	over: false,
 	start: false,
@@ -129,6 +132,7 @@ function beginRender() {
 			c.fillStyle = "black";
 			c.fillText("You lost!", canvas.width / 2 - 50, canvas.height / 2 - 100);
 			c.font = "20px Arial";
+
 			var grade = (60 + test.round);
 			c.fillText("You got to round " + test.round + "! (" + grade + "%)", canvas.width / 2 - 100, canvas.height / 2 - 50);
 			c.font = "20px Arial";
@@ -148,6 +152,7 @@ function beginRender() {
 				ending = "You didn't even try. How pathetic.";
 			}
 
+			// Draw ending in center
 			c.fillText(ending, (canvas.width / 2 - c.measureText(ending).width / 2), canvas.height / 2);
 		}
 	}, 1);
@@ -179,7 +184,8 @@ function key(event) {
 		beginRender();
 
 		play("start");
-		// 1 Second before start
+
+		// 1 Second before start (length of start.mp3)
 		setTimeout(function() {
 			startTest();
 
