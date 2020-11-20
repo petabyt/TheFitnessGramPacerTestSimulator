@@ -228,13 +228,13 @@ function glidePlayer(direction) {
 				}
 			}
 		}
-	}, 10);
+	}, 1);
 
-	// Sometimes the movements aren't exact, but we can kill them after half a second
+	// // Sometimes the movements aren't exact, but we can kill them after half a second
 	setTimeout(function() {
 		clearInterval(int);
 		player.frame = 0;
-	}, 300);
+	}, 200);
 }
 
 // Test mechanics (called every lap)
