@@ -7,37 +7,35 @@
 			width: 100%;
 			height: 100%;
 			margin: 0;
+			overflow: hidden;
 		}
 		canvas {
-			width: 1150px;
-			height: 500px;
+			border: transparent;
+			width: 100%;
+			height: 100%;
 		}
 		#images {
 			display: none;
 			visibility: hidden;
 		}
 	</style>
+	<meta charset="utf-8">
 </head>
 <body onkeydown="key(event)" onkeyup="move.alreadyPressed = false" onclick="interacted = true">
-<center>
-	<canvas id="canvas" width="1150" height="500">
+	<canvas id="canvas">
 		Your browser does not support canvas. :(
 	</canvas>
-	<img src="assets/instructions.png">
-	<br>
-	<span>Copyright 2019 Petabyte Studios. Licensed under GNU License v3.0. <a href="https://github.com/pufflegamerz/TheFitnessGramPacerTestSimulator">Github Link</a></span>
-</center>
-<div id="images">
-	<img src="assets/person-right.png" id="person-right">
-	<img src="assets/person1-right.png" id="person1-right">
-	<img src="assets/person2-right.png" id="person2-right">
+	<div id="images">
+		<img src="assets/person-right.png" id="person-right">
+		<img src="assets/person1-right.png" id="person1-right">
+		<img src="assets/person2-right.png" id="person2-right">
 
-	<img src="assets/person-left.png" id="person-left">
-	<img src="assets/person1-left.png" id="person1-left">
-	<img src="assets/person2-left.png" id="person2-left">
+		<img src="assets/person-left.png" id="person-left">
+		<img src="assets/person1-left.png" id="person1-left">
+		<img src="assets/person2-left.png" id="person2-left">
 
-	<img src="assets/start.png" id="start">
-</div>
+		<img src="assets/start.png" id="start">
+	</div>
 </body>
 <script type="text/javascript" src="javascript.js"></script>
 </html>
