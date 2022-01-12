@@ -16,7 +16,7 @@ var player = {
 var test = {
 	// Calculate time from screen width so
 	// it is the same for big and small windows
-	time: Math.floor(window.innerWidth / 300),
+	time: Math.floor(window.outerWidth / 200),
 
 	round: 0,
 	over: false,
@@ -26,6 +26,9 @@ var test = {
 	buttonDelay: false // Button is done after ding
 }
 
+function restart() {
+	stop("sun");
+}
 
 var audio;
 window.onload = function() {
@@ -37,10 +40,10 @@ window.onload = function() {
 		"lap": new Audio("assets/lap.mp3"),
 		"start": new Audio("assets/start.mp3")
 	}
-
+	
 	// Resize canvas
-	canvas.width = window.innerWidth;
-	canvas.height = window.innerHeight;
+	canvas.width = window.outerWidth;
+	canvas.height = window.outerHeight;
 
 	// Draw intro message
 	c.fillStyle = "black";
@@ -66,10 +69,13 @@ window.onload = function() {
 function beginRender() {
 	// Main game loop
 	setInterval(function() {
+		// Resize canvas
+		canvas.width = window.outerWidth;
+		canvas.height = window.outerHeight;
 		c.clearRect(0, 0, canvas.width, canvas.height);
 
 		// Ground level of room
-		var ground = canvas.height / 2 + 100; // Ground level
+		var ground = canvas.height / 2 + 100;
 
 		// Draw gym floor
 		c.fillStyle = "chocolate";
@@ -158,6 +164,34 @@ function beginRender() {
 	}, 1);
 }
 
+function start() {
+	document.getElementById("startbtn").style.display = "none";
+	document.getElementById("leftbtn").style.display = "block";
+	document.getElementById("rightbtn").style.display = "block";
+	test.began = true;
+
+	// Stop intro
+	stop("intro");
+
+	// Start the render background loop
+	beginRender();
+
+	play("start");
+
+	// 1 Second before start (length of start.mp3)
+	setTimeout(function() {
+		startTest();
+
+		play("sun"); // Background music
+
+		// Progressively gets harder every 5 seconds
+		test.difficulty = setInterval(function() {
+			test.time -= .1;
+			play("speedup");
+		}, 5000);
+	}, 3396);
+}
+
 // Make moving harder by not letting the player hold the key down
 function key(event) {
 	interacted = true;
@@ -166,37 +200,9 @@ function key(event) {
 
 		if (event.key == "d" || event.key == "ArrowRight") {
 			glidePlayer("forward");
-			player.direction = "right";
 		} else if (event.key == "a" || event.key == "ArrowLeft") {
-			player.direction = "left";
 			glidePlayer("back");
 		}
-	}
-
-	// Allow the user to start
-	if (event.key == " ") {
-		test.began = true;
-
-		// Stop intro
-		stop("intro");
-
-		// Start the render background loop
-		beginRender();
-
-		play("start");
-
-		// 1 Second before start (length of start.mp3)
-		setTimeout(function() {
-			startTest();
-
-			play("sun"); // Background music
-
-			// Progressively gets harder every 5 seconds
-			test.difficulty = setInterval(function() {
-				test.time -= .1;
-				play("speedup");
-			}, 5000);
-		}, 3396);
 	}
 }
 
@@ -218,10 +224,12 @@ function glidePlayer(direction) {
 			velocity = velocity * .92;
 
 			if (direction == "forward") {
+				player.direction = "right";
 				if (!(player.x > canvas.width - 50)) {
 					player.x += velocity;
 				}
 			} else {
+				player.direction = "left";
 				player.x -= velocity;
 				if (player.x < -30) {
 					player.x += velocity;
